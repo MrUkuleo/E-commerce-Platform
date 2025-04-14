@@ -34,6 +34,17 @@
     <div id="cart-items" class="cards-container"></div>
     <div id="total-price" style="font-weight:bold; font-size:18px;"></div>
 
-    <a href="placing-order.html"><button  id="place-order">Оформить заказ</button></a>
+    <button  id="place-order">Оформить заказ</button>
+
+    <div id="order-form" style="display: none;">
+        <h2>Оформление заказа</h2>
+        <label>Ваше имя: <input type="text" id="customer-name"></label><br>
+        <label>Контакт (телефон или email): <input type="text" id="customer-contact"></label><br>
+        <label>Адрес доставки: <input type="text" id="customer-address"></label><br>
+        <label>Комментарий: <textarea id="customer-comment"></textarea></label><br>
+        <p id="order-total"></p>
+        <button id="confirm-order-btn">Подтвердить заказ</button>
+    </div>
+    
 </body>
 </html>

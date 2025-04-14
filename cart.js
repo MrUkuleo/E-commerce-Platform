@@ -87,4 +87,53 @@ $(document).ready(function () {
     });
 
     renderCart();
+
+    $('#place-order').click(function () {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    
+        if (cart.length === 0) return;
+    
+        let total = 0;
+        cart.forEach(item => {
+            total += item.price * item.quantity;
+        });
+    
+        $('#order-total').text(`Итого: ${total} ₽`);
+        $('#order-form').slideDown(300);
+    });
+
+    $('#confirm-order-btn').click(function () {
+        const name = $('#customer-name').val().trim();
+        const contact = $('#customer-contact').val().trim();
+        const address = $('#customer-address').val().trim();
+    
+        if (!name || !contact || !address) {
+            alert("Пожалуйста, заполните все обязательные поля.");
+            return;
+        }
+    
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const orderData = {
+            customer: {
+                name: name,
+                contact: contact,
+                address: address,
+                comment: $('#customer-comment').val().trim()
+            },
+            items: cart,
+            date: new Date().toISOString()
+        };
+    
+        // TODO: Отправка на сервер через fetch/ajax
+        console.log("Order confirmed:", orderData);
+    
+        // Очистить корзину
+        localStorage.removeItem('cart');
+        renderCart();
+        updateCheckoutButtonState();
+        $('#order-form').slideUp(300);
+        alert("Спасибо за заказ! Мы свяжемся с вами в ближайшее время.");
+    });
+    
+    
 });
