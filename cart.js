@@ -88,6 +88,13 @@ $(document).ready(function () {
 
     renderCart();
 
+    function CheckForCorrect(contactInput) {
+        const phoneRegex = /^\+7\s?\d{3}\s?\d{3}[- ]?\d{2}[- ]?\d{2}$/;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        return (!phoneRegex.test(contactInput) && !emailRegex.test(contactInput)) ? false : true;
+    }
+
     $('#place-order').click(function () {
         const cart = JSON.parse(localStorage.getItem('cart')) || [];
     
@@ -108,8 +115,13 @@ $(document).ready(function () {
         const address = $('#customer-address').val().trim();
     
         if (!name || !contact || !address) {
-            alert("Пожалуйста, заполните все обязательные поля.");
-            return;
+            alert("Пожалуйста, заполните все обязательные поля!");
+            return; 
+        }
+    
+        if (!CheckForCorrect(contact)) {
+            alert("Введите корректную контактную информацию!");
+            return; 
         }
     
         const cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -124,15 +136,14 @@ $(document).ready(function () {
             date: new Date().toISOString()
         };
     
-        // TODO: Отправка на сервер через fetch/ajax
         console.log("Order confirmed:", orderData);
     
         // Очистить корзину
         localStorage.removeItem('cart');
         renderCart();
-        $('#order-form').slideUp(300);
+        $('#order-form').slideUp(300); 
         alert("Спасибо за заказ! Мы свяжемся с вами в ближайшее время.");
-
+    
         $('#place-order').prop('disabled', true);
         $('#place-order').addClass('disabled');
     });
