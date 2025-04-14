@@ -5,8 +5,13 @@ $(document).ready(function () {
 
     if (cart.length === 0) {
         $('#cart-items').html('<p>Корзина пуста</p>');
-        $('#place-order').prop('disabled');
-            return;
+        $('#place-order').prop('disabled', true);
+        $('#place-order').addClass('disabled');
+        return;
+    }
+    else{
+        $('#place-order').prop('disabled', false);
+        $('#place-order').removeClass('disabled');
     }
 
     cart.forEach(item => {
