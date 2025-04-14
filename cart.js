@@ -130,9 +130,11 @@ $(document).ready(function () {
         // Очистить корзину
         localStorage.removeItem('cart');
         renderCart();
-        updateCheckoutButtonState();
         $('#order-form').slideUp(300);
         alert("Спасибо за заказ! Мы свяжемся с вами в ближайшее время.");
+
+        $('#place-order').prop('disabled', true);
+        $('#place-order').addClass('disabled');
     });
     
     

@@ -38,12 +38,22 @@
 
     <div id="order-form" style="display: none;">
         <h2>Оформление заказа</h2>
-        <label>Ваше имя: <input type="text" id="customer-name"></label><br>
-        <label>Контакт (телефон или email): <input type="text" id="customer-contact"></label><br>
-        <label>Адрес доставки: <input type="text" id="customer-address"></label><br>
-        <label>Комментарий: <textarea id="customer-comment"></textarea></label><br>
-        <p id="order-total"></p>
-        <button id="confirm-order-btn">Подтвердить заказ</button>
+        <form id="checkout-form">
+            <label>Ваше имя:</label>
+            <input type="text" id="customer-name">
+            
+            <label>Контакт (телефон или email):</label>
+            <input type="text" id="customer-contact">
+            
+            <label>Адрес доставки:</label>
+            <input type="text" id="customer-address">
+            
+            <label>Комментарий:</label>
+            <textarea id="customer-comment"></textarea>
+            
+            <p id="order-total"></p>
+            <button id="confirm-order-btn">Подтвердить заказ</button>
+        </form>
     </div>
     
 </body>
