@@ -15,7 +15,19 @@ $(document).ready(function () {
             } else {
                 $("#description").text(response.description);
                 $("#price").text(response.price + " ₽");
-                $("#how-much-is-left").text("В наличии: " + response.quantity + " шт.");
+
+                if (response.quantity <= 0)
+                {
+                    $("#how-much-is-left").text("Нет в наличии!");
+                    $("#how-much-is-left").css('color', 'red');
+
+                    $('#add-to-cart').prop('disabled', true);
+                }
+                else
+                {
+                    $("#how-much-is-left").text("В наличии: " + response.quantity + " шт.");
+                    $("#how-much-is-left").css('color', 'black');
+                }
                 HowMuchIsLeft = response.quantity;
                 $('#how-much-is-left').html(`В наличии: ${HowMuchIsLeft} шт.`);
                 updateButtons();

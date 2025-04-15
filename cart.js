@@ -135,15 +135,28 @@ $(document).ready(function () {
             items: cart,
             date: new Date().toISOString()
         };
-    
+        
         console.log("Order confirmed:", orderData);
-    
-        // Очистить корзину
-        localStorage.removeItem('cart');
-        renderCart();
-        $('#order-form').slideUp(300); 
-        alert("Спасибо за заказ! Мы свяжемся с вами в ближайшее время.");
-    
+
+        $.ajax({
+            url: 'update_stock.php', // Путь до твоего PHP-обработчика
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+              customer: { name, address, contact },
+              items: cart
+            }),
+            success: function (response) {
+              alert('Заказ успешно оформлен!');
+              localStorage.removeItem('cart');
+              window.location.reload(); // Перезагрузка страницы (или перенаправление)
+            },
+            error: function (xhr, status, error) {
+              console.error('Ошибка при отправке заказа:', error);
+              alert('Произошла ошибка при оформлении заказа. Попробуйте снова.');
+            }
+          });
+        
         $('#place-order').prop('disabled', true);
         $('#place-order').addClass('disabled');
     });
