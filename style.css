@@ -224,3 +224,31 @@ textarea {
     width: 100%;
     height: 50px;
 }
+
+.search-results {
+    margin-top: 20px;
+}
+
+.search-results .card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.search-results .card-img {
+    width: 100px;
+    height: 100px;
+    margin-right: 15px;
+}
+
+.search-results .card-body {
+    flex: 1;
+}
+
+.search-results p {
+    font-style: italic;
+    color: #666;
+}

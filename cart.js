@@ -110,6 +110,7 @@ $(document).ready(function () {
     });
 
     $('#confirm-order-btn').click(function () {
+        event.preventDefault();
         const name = $('#customer-name').val().trim();
         const contact = $('#customer-contact').val().trim();
         const address = $('#customer-address').val().trim();
