@@ -1,55 +1,75 @@
 <?php
 header('Content-Type: application/json');
 
-// Подключение к базе
-$dsn = 'mysql:host=localhost;dbname=khruschovpracticedb;charset=utf8';
-$user = 'root';
-$password = '';
+// Include database connection
+require_once 'db_connect.php';
+
+// Function to update stock quantity
+function updateStock($pdo, $productName, $quantityPurchased) {
+    try {
+        // Fetch current product details
+        $stmt = $pdo->prepare("SELECT Quantity FROM products WHERE ProductName = :productName");
+        $stmt->execute(['productName' => $productName]);
+        $product = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$product) {
+            throw new Exception("Product not found: $productName");
+        }
+
+        $currentQuantity = $product['Quantity'];
+        $newQuantity = $currentQuantity - $quantityPurchased;
+
+        if ($newQuantity < 0) {
+            throw new Exception("Insufficient stock for $productName. Available: $currentQuantity, Requested: $quantityPurchased");
+        }
+
+        // Update the quantity in the database
+        $updateStmt = $pdo->prepare("UPDATE products SET Quantity = :newQuantity WHERE ProductName = :productName");
+        $updateStmt->execute([
+            'newQuantity' => $newQuantity,
+            'productName' => $productName
+        ]);
+
+        return true;
+    } catch (Exception $e) {
+        throw $e;
+    }
+}
 
 try {
-    $pdo = new PDO($dsn, $user, $password, [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-    ]);
-} catch (PDOException $e) {
-    http_response_code(500);
-    echo json_encode(['error' => 'Ошибка подключения к базе данных']);
-    exit;
-}
+    // Get the raw POST data
+    $json = file_get_contents('php://input');
+    $data = json_decode($json, true);
 
-// Получение JSON-данных из тела POST-запроса
-$data = json_decode(file_get_contents('php://input'), true);
-
-if (!$data || !isset($data['items'])) {
-    http_response_code(400);
-    echo json_encode(['error' => 'Неверный формат данных']);
-    exit;
-}
-
-// Обработка каждого товара
-foreach ($data['items'] as $item) {
-    $name = $item['name'];
-    $quantity = (int)$item['quantity'];
-
-    if ($quantity <= 0) continue;
-
-    // Проверка достаточного количества на складе
-    $stmt = $pdo->prepare("SELECT quantity FROM products WHERE name = :name");
-    $stmt->execute(['name' => $name]);
-    $product = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if (!$product) {
-        echo json_encode(['error' => "Товар '$name' не найден"]);
-        exit;
+    if (!$data || !isset($data['items'])) {
+        throw new Exception("Invalid request data");
     }
 
-    if ($product['quantity'] < $quantity) {
-        echo json_encode(['error' => "Недостаточно товара '$name' на складе"]);
-        exit;
+    $items = $data['items'];
+
+    // Begin a transaction to ensure all updates succeed or fail together
+    $pdo->beginTransaction();
+
+    // Update stock for each item
+    foreach ($items as $item) {
+        if (!isset($item['name']) || !isset($item['quantity'])) {
+            throw new Exception("Missing item data");
+        }
+
+        $productName = $item['name'];
+        $quantityPurchased = $item['quantity'];
+
+        updateStock($pdo, $productName, $quantityPurchased);
     }
 
-    // Обновление количества
-    $stmt = $pdo->prepare("UPDATE products SET quantity = quantity - :qty WHERE name = :name");
-    $stmt->execute(['qty' => $quantity, 'name' => $name]);
-}
+    // Commit the transaction
+    $pdo->commit();
 
-echo json_encode(['status' => 'success']);
+    // Send success response
+    echo json_encode(['success' => true, 'message' => 'Stock updated successfully']);
+} catch (Exception $e) {
+    // Roll back the transaction on error
+    $pdo->rollBack();
+    echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+}
+?>

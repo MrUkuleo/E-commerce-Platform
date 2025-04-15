@@ -1,9 +1,9 @@
 <?php
 // db_connect.php
-$host = 'localhost'; // Обычно localhost для MAMP/XAMPP
+$host = 'localhost';
 $dbname = 'khruschovpracticedb';
-$username = 'root'; // По умолчанию для MAMP/XAMPP
-$password = ''; // По умолчанию пустой пароль для MAMP/XAMPP
+$username = 'root'; 
+$password = ''; 
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);

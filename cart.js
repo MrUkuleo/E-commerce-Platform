@@ -78,7 +78,7 @@ $(document).ready(function () {
         
         const res = confirm(`Вы уверены, что хотите удалить следующий товар:\n${$(this).closest('.card').find('h3').text()}?`)
 
-        if(res )
+        if(res)
         {
             cart.splice(index, 1);
             localStorage.setItem('cart', JSON.stringify(cart));
@@ -139,7 +139,7 @@ $(document).ready(function () {
         console.log("Order confirmed:", orderData);
 
         $.ajax({
-            url: 'update_stock.php', // Путь до твоего PHP-обработчика
+            url: 'update_stock.php',
             method: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({
@@ -147,19 +147,20 @@ $(document).ready(function () {
               items: cart
             }),
             success: function (response) {
-              alert('Заказ успешно оформлен!');
-              localStorage.removeItem('cart');
-              window.location.reload(); // Перезагрузка страницы (или перенаправление)
+                alert('Заказ успешно оформлен!');
+                localStorage.removeItem('cart');
+                window.location.reload();
             },
             error: function (xhr, status, error) {
-              console.error('Ошибка при отправке заказа:', error);
-              alert('Произошла ошибка при оформлении заказа. Попробуйте снова.');
+                let errorMessage = 'Произошла ошибка при оформлении заказа. Попробуйте снова.';
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    errorMessage = xhr.responseJSON.message;
+                }
+                alert(errorMessage);
             }
-          });
+        });
         
         $('#place-order').prop('disabled', true);
         $('#place-order').addClass('disabled');
     });
-    
-    
 });
