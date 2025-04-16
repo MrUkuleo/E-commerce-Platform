@@ -24,17 +24,13 @@ $(document).ready(function () {
                 if (response.success) {
                     // Отображаем найденные товары
                     response.products.forEach(product => {
-                        const card = `
-                            <div class="card">
+                        const foundProduct = `
+                            <div class="found-product">
                                 <img src="products/pictures/${product.ProductName}.jpg" alt="${product.ProductName}" class="card-img">
-                                <div class="card-body">
-                                    <h3 class="card-title">${product.ProductName}</h3>
-                                    <p class="card-text">Цена: ${product.Price} ₽</p>
-                                    <p class="card-text">Количество на складе: ${product.Quantity}</p>
-                                </div>
+                                <h3 class="card-title">${product.ProductName}</h3>
                             </div>
                         `;
-                        $searchResults.append(card);
+                        $searchResults.append(foundProduct);
                     });
                 } else {
                     // Отображаем сообщение, если товары не найдены

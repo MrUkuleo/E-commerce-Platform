@@ -225,30 +225,20 @@ textarea {
     height: 50px;
 }
 
-.search-results {
-    margin-top: 20px;
-}
-
-.search-results .card {
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
+.found-product {
     display: flex;
-    align-items: center;
+    background-color: white;
+    border: 0.5px black solid;
+    cursor: pointer;
+    width: 50%;
 }
 
-.search-results .card-img {
-    width: 100px;
-    height: 100px;
-    margin-right: 15px;
+.found-product img {
+    width: 50px;
 }
 
-.search-results .card-body {
-    flex: 1;
-}
-
-.search-results p {
-    font-style: italic;
-    color: #666;
+.search-results {
+    position: absolute;
+    left: 400px;
+    top: 25px    ;
 }
