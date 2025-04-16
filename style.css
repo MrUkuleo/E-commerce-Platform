@@ -225,12 +225,19 @@ textarea {
     height: 50px;
 }
 
-.found-product {
+.found-product { 
     display: flex;
     background-color: white;
     border: 0.5px black solid;
     cursor: pointer;
     width: 50%;
+    opacity: .7;
+    text-decoration: none; /* Убираем подчёркивание ссылки */
+    color: inherit; /* Наследуем цвет текста */
+}
+
+.found-product:hover {
+    opacity: 1;
 }
 
 .found-product img {
@@ -240,5 +247,5 @@ textarea {
 .search-results {
     position: absolute;
     left: 400px;
-    top: 25px    ;
+    top: 25px;
 }

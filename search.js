@@ -24,11 +24,31 @@ $(document).ready(function () {
                 if (response.success) {
                     // Отображаем найденные товары
                     response.products.forEach(product => {
+                        // Определяем URL страницы товара на основе названия
+                        let productUrl = '';
+                        const productName = product.ProductName.toLowerCase();
+
+                        if (productName.includes('видеокарта')) {
+                            productUrl = 'products/gpu.html';
+                        } else if (productName.includes('процессор')) {
+                            productUrl = 'products/cpu.html';
+                        } else if (productName.includes('материнская плата')) {
+                            productUrl = 'products/mboard.html';
+                        } else if (productName.includes('блок питания')) {
+                            productUrl = 'products/bp.html';
+                        } else if (productName.includes('signature line')) {
+                            productUrl = 'products/ram.html';
+                        } else {
+                            // Если категория не определена, можно указать страницу по умолчанию или оставить пустым
+                            productUrl = '#';
+                        }
+
+                        // Создаём элемент с ссылкой
                         const foundProduct = `
-                            <div class="found-product">
+                            <a href="${productUrl}" class="found-product">
                                 <img src="products/pictures/${product.ProductName}.jpg" alt="${product.ProductName}" class="card-img">
                                 <h3 class="card-title">${product.ProductName}</h3>
-                            </div>
+                            </a>
                         `;
                         $searchResults.append(foundProduct);
                     });
