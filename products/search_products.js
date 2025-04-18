@@ -13,7 +13,7 @@ $(document).ready(function () {
         }
 
         $.ajax({
-            url: 'search.php',
+            url: '../search.php',
             method: 'GET',
             data: { query: searchQuery },
             dataType: 'json',
@@ -24,22 +24,22 @@ $(document).ready(function () {
                         const productName = product.ProductName.toLowerCase();
 
                         if (productName.includes('видеокарта')) {
-                            productUrl = 'products/gpu.html';
+                            productUrl = 'gpu.html';
                         } else if (productName.includes('процессор')) {
-                            productUrl = 'products/cpu.html';
+                            productUrl = 'cpu.html';
                         } else if (productName.includes('материнская плата')) {
-                            productUrl = 'products/mboard.html';
+                            productUrl = 'mboard.html';
                         } else if (productName.includes('блок питания')) {
-                            productUrl = 'products/bp.html';
+                            productUrl = 'bp.html';
                         } else if (productName.includes('signature line')) {
-                            productUrl = 'products/ram.html';
+                            productUrl = 'ram.html';
                         } else {
                             productUrl = '#';
                         }
 
                         const foundProduct = `
                             <a href="${productUrl}" class="found-product">
-                                <img src="products/pictures/${product.ProductName}.jpg" alt="${product.ProductName}" class="card-img">
+                                <img src="pictures/${product.ProductName}.jpg" alt="${product.ProductName}" class="card-img">
                                 <h3 class="card-title">${product.ProductName}</h3>
                             </a>
                         `;

@@ -227,13 +227,16 @@ textarea {
 
 .found-product { 
     display: flex;
+    align-items: center; 
     background-color: white;
     border: 0.5px black solid;
     cursor: pointer;
-    width: 50%;
-    opacity: .7;
-    text-decoration: none; /* Убираем подчёркивание ссылки */
-    color: inherit; /* Наследуем цвет текста */
+    width: 300px;
+    opacity: 0.7;
+    text-decoration: none;
+    color: inherit;
+    padding: 5px; 
+    margin-bottom: 5px;
 }
 
 .found-product:hover {
@@ -242,10 +245,24 @@ textarea {
 
 .found-product img {
     width: 50px;
+    height: 50px; 
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.found-product .card-title {
+    flex: 1; 
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; 
 }
 
 .search-results {
     position: absolute;
-    left: 400px;
-    top: 25px;
+    left: 570px;
+    top: 30px;
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 5px;
+    z-index: 1000;
 }
